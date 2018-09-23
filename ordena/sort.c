@@ -7,25 +7,30 @@
 #include <string.h> //strcmp
 #include "sort.h"
 #define MAX 1000000
+
+/**************Cabeçalho da depuração************************************/
+/*Para ativar a depuração basta descomentar a linha abaixo e tornar global
+a variável tamanho e o ponteiro vetor que está dentro da main. 
+Isso fará com que o vetor seja impresso a cada alteração.
+*/
+
 #define debug //print(vetor,tamanho);
+//int tamanho;
+//int * vetor;
 
 /******************************************/
 /******Declarações de variáveis************/
 /******************************************/
-
-//Mensagem de ajuda:
-char ajudamsg[]="~~~~~~~~Mensagem de ajuda~~~~~~~~\nDescricao dos parametros:\nsort Algoritmo Cenario Tamanho Arquivo seed\n\nAlgoritmo:\nBolha, BolhaSe, BolhaCo, Insercao, Selecao, Intercala, heapSort, quickSort\n\nCenario:\nAleatorio, QOrdenado, QInversaO, Repetidos\n\nTamanho:\nValore positivo inteiro referente ao tamanho do vetor a ser ordenado\n\nArquivo(opcional):\nNome do arquivo de saida.\n\nSeed(opcional):\nValor tipo unsigned int a ser usado para configurar o algoritmo pseudo aleatorio \n\nExemplo:\nsort Bolha Aleatorio 30 Saida.txt 4564654\nUsara o algoritmo bolha para ordenar um vetor aleatorio de 500 elementos gerado com o seed 4564654* salvando a saida no arquivo Saida.txt";
+long long int atrib=0;//Número de atribuições 
+long long int comp=0;//Número de comparações
 
 /******************************************/
 /**********Função Principal****************/
 /******************************************/
-long long int atrib=0;//Número de atribuições 
-long long int comp=0;//Número de comparações
-
-int tamanho;
-int * vetor;//Vetor para testes, ele deveria estar dentro da main
-
 int main(int argc, char *argv[]){
+	//Comentar tamanho e vetor para ativar depuração, ver cabeçalho
+	int tamanho;
+	int * vetor;//Vetor para testes
 	Fun algoritmo=0;//Ponteiro para a função correspondente ao algoritmo a ser utilizado
 	
 	//Exibe mensagem de ajuda se o número de argumentos estiver errado
@@ -61,7 +66,6 @@ int main(int argc, char *argv[]){
 /*****************************************/
 /********Algritmos de ordenação***********/
 /*****************************************/
-
 void Bolha(int A[], int n){ // Vetor A, tamanho n
 	int trocou = 1,i;
 	while(trocou){//Percorre o vetor inteiro enquanto trocas estiverem ocorrendo
@@ -234,6 +238,7 @@ void quick(int A[], int m, int M){//Quicksort
 void quickSort(int A[], int N){//Adaptação do formato da função
 	quick(A,0,N-1);//Faz a chamada da função
 }
+
 /******************************************/
 /*********Funções auxiliares***************/
 /******************************************/
@@ -243,9 +248,12 @@ void troca(int *A,int *B){//Troca o elemento A com B
 	*A = *B;
 	*B = aux;
 	atrib +=2;//Cada troca são duas atribuições
-	debug
+	debug //função para depuração, ver cabeçalho
 }
 void ajuda(int erro){//Exibe mensagem de ajuda e sai
+	//Mensagem de ajuda:
+	char ajudamsg[]="~~~~~~~~Mensagem de ajuda~~~~~~~~\nDescricao dos parametros:\nsort Algoritmo Cenario Tamanho Arquivo seed\n\nAlgoritmo:\nBolha, BolhaSe, BolhaCo, Insercao, Selecao, Intercala, heapSort, quickSort\n\nCenario:\nAleatorio, QOrdenado, QInversaO, Repetidos\n\nTamanho:\nValor positivo inteiro referente ao tamanho do vetor a ser ordenado\n\nArquivo(opcional):\nNome do arquivo de saida.\n\nSeed(opcional):\nValor tipo unsigned int a ser usado para configurar o algoritmo pseudo aleatorio \n\nExemplo:\nsort Bolha Aleatorio 500 Saida.txt 4564654\nUsara o algoritmo bolha para ordenar um vetor aleatorio de 500 elementos gerado com o seed 4564654 salvando a saida no arquivo Saida.txt";
+
 	switch (erro){//Emite o erro de acordo com o que for especificado
 		case 1:
 			printf("Erro na quantidade de argumentos\n");
@@ -302,7 +310,7 @@ void init(int * A, int n, int step, int range) {//Função inicializadora do vet
 		int offset = rand() % range;
 		A[i] = base + offset;
 	}
-	debug
+	debug //função para depuração, ver cabeçalho
 }		
 void print(int * A, int n){//Função auxiliar para imprimir o vetor
 	int i;
