@@ -64,7 +64,7 @@ int main(int argc, char *argv[]){
 }
 
 /*****************************************/
-/********Algritmos de ordenação***********/
+/********Algoritmos de ordenação***********/
 /*****************************************/
 void Bolha(int A[], int n){ // Vetor A, tamanho n
 	int trocou = 1,i;
