@@ -1,0 +1,22 @@
+~~~~~~~~Mensagem de ajuda~~~~~~~~
+Descricao dos parametros:
+sort Algoritmo Cenario Tamanho Arquivo seed
+
+Algoritmo:
+Bolha, BolhaSe, BolhaCo, Insercao, Selecao, Intercala, heapSort, quickSort
+
+Cenario:
+Aleatorio, QOrdenado, QInversaO, Repetidos
+
+Tamanho:
+Valor positivo inteiro referente ao tamanho do vetor a ser ordenado
+
+Arquivo(opcional):
+Nome do arquivo de saida.
+
+Seed(opcional):
+Valor tipo unsigned int a ser usado para configurar o algoritmo pseudo aleatorio 
+
+Exemplo:
+sort Bolha Aleatorio 500 Saida.txt 4564654
+Usara o algoritmo bolha para ordenar um vetor aleatorio de 500 elementos gerado com o seed 4564654 salvando a saida no arquivo Saida.txt
