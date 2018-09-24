@@ -1,4 +1,4 @@
-//Declara Fun como ponteiro para função void que recebe um vetor int e um int:
+//Define Fun como tipo ponteiro para função void que recebe um vetor int e um int:
 typedef void (*Fun)(int [],int);
 
 //Protótipo das funções:
