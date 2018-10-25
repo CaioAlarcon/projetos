@@ -1,6 +1,7 @@
 programa auxiliar criado com o objetivo de testar a árvore AVL
 
 -main.c é o código do programa
+
 -insere, busca e remove são os arquivos de saída do programa criado com o código main.c.
 Estes arquivos de saída são instruções de entrada para o programa avl.
 Cada linha de cada arquivo é uma instrução de inserção busca ou remoção.
