@@ -1,6 +1,6 @@
 Alguns problemas solucionados usando programação dinâmica.
 
-Aruivos:
+Arquivos:
 
 Programação Dinâmica.pdf: contém a parte escrita do trabalho
 
