@@ -1,7 +1,9 @@
 ;Nomes:
 ;	Caio Cesar Aguiar Alarcon	n° 7241109
-;	Denis Alexandre da Silva	n° 7238999
 ;	Bruno de Souza Menzzano		n° 9790795
+;	Denis Alexandre da Silva	n° 7238999
+
+
 jmp main
 Tabuleiro : string "_________"
 Mensagem : string "Use os numeros para movimentar o cursor e o Enter para executar as jogadas."
