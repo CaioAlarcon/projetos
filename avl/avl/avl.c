@@ -1,174 +1,102 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "avl.h"
 
+int incluir(no*);
+int remover(no*);
+void buscar(no);
+void crlf();
+void profundidade(no);
+void loga(no,int);
 
-no novoN(int ch, int val){				    //Retorna endereço do nó recem criado.
-	no N = (no)	malloc(sizeof(struct N));   //Aloca na memória o espaço necessário para um nó.
-	N->ch = ch;                             //Registra a chave
-	N->valor = val;                         //Registra o valor
-	N->es = NULL;                           //Indica que não tem filho esquerdo
-	N->di = NULL;                           //Indica que não tem filho direito
-	N->prof = 1;                            //Profundidade padrão
-	return(N);                              //Retorna a referencia para o nó recém criado
-}
+int main(){
+	no a=NULL;
+	int avlcont=0;
 
-int prof(no N){							    //Retorna a profundidade da árvore.
-	if(N)
-		return N->prof;                     //Busca no nó sua profundidade.
-    return 0;                               //Retorna 0 caso não exista nó.
-}
-
-int fatorB(no N){						    //Retorna o fator de balanceamento.
-	if(N)
-		return prof(N->es) - prof(N->di);   //Calcula e retorna o fator de balanceamento.
-    return 0;                               //Caso o nó não exista retorna zero.
-}
-
-int max(int a, int b){				    	//Retorna o maior.
-	return (a >= b)? a : b;                 //Se a>=b retorna a, caso contrário retorna b.
-}
-
-void ActProf(no x){                         //Atualiza profundidade.
-    x->prof = max(prof(x->es), prof(x->di))+1; //Calcula a profundidade baseando-se nas profundidades dos filhos.
-}
-
-void giraD(no * N){						    //Rotação a direita.
-	no A = (*N)->es;
-	no B = A->di;
-    //Efetua a rotação:
-	A->di = *N;
-	(*N)->es = B;
-
-	//Atualiza profundidades:
-	ActProf(*N);
-	ActProf(A);
-	*N = A;
-}
-
-void giraE(no * N){						    //Rotação a esquerda.
-	no A = (*N)->di;
-	no B = A->es;
-
-    //Efetua a rotação.
-	A->es = *N;
-	(*N)->di = B;
-
-	//Atualiza profundidades:
-	ActProf(*N);
-	ActProf(A);
-	*N = A;
-}
-
-void balancear(no * N){                     //Balanceia a arvore.
-    int b;
-
-    if(*N){
-        ActProf(*N);
-        b = fatorB(*N);
-        //return;//Desativa balanceamento
-        if(b > 1){
-            if(fatorB((*N)->es)>=0)		//Esquerda esquerda
-                giraD(N);
-            else{						//Esquerda direita
-                giraE(&(*N)->es);
-                giraD(N);
-            }
-        }
-        if(b < -1){
-            if(fatorB((*N)->es)<=0)		//Direita direita
-                giraE(N);
-            else{						//Direita esquerda
-                giraD(&(*N)->di);
-                giraE(N);
-            }
-        }
-    }
-
-}
-
-int insere(no * N, int ch, int val){	    //Função recursiva de inserção em árvore.
-	int retval;
-	if(!*N){
-    	*N = (novoN(ch, val));              //Se não existir nada, apenas cria o novo nó.
-        retval = 1;
+	for(;;){
+		printf("1 incluir elemento\n");
+		printf("2 remover elemento\n");
+		printf("3 buscar elemento\n");
+		printf("4 sair do programa\n");
+		fflush(stdin);
+		switch(getchar()){
+			case '1':
+				avlcont += incluir(&a);		//Inserir elemento.
+			break;
+			case '2':
+				avlcont -= remover(&a);		//Remover elemento.
+			break;
+			case '3':
+				buscar(a);		//Buscar elemento.
+			break;
+			case '4':
+				exit(1);		//Sair.
+			case '5':
+				preO(a);		//Mostra arvre em pre ordem
+				crlf();
+				break;
+            case 'p':
+                profundidade(a);//mostra a profundidade da arvore
+                break;
+		}
+		loga(a,avlcont);
 	}
-	else if(ch < (*N)->ch)                  //Se a chave for menor
-        retval = insere(&((*N)->es), ch, val);       //procura na prole da esquerda
-	else if(ch > (*N)->ch)                  //caso seja maior
-		retval = insere(&(*N)->di, ch, val);         //procura na da direita
-	else{
-        (*N)->valor = val;                  //Apenas atualiza o valor.
-        retval = 0;
-	}                                   //Se não for nem direita nem esquerda, o nó já existe
-
-	balancear(N);                           //Balanceia a árvore das folhas para a raiz.
-	return retval;
+	return 0;
 }
 
-no meNOr(no N){                             //Dada uma árvore, retorna referêcia de seu menor elemento.
-    if(N->es)
-		return meNOr(N->es);                //Se ainda há o que percorrer, continuar a recursão.
-    return N;                               //Se não existe elemento a esquerda, então este já é o menor.
+void profundidade(no a){
+    printf("%d\n",a?a->prof:0);
 }
 
-int rem(no * N, int ch){                   //Função de remoção: dada uma chave, remove o elemento tentando manter a árvore balanceada.
-    int RetVal;
-    if(*N){
-        if (ch < (*N)->ch )
-                RetVal = rem(&(*N)->es, ch);
-        else if( ch > (*N)->ch )
 
-                RetVal = rem(&(*N)->di, ch);
-        else{
-            if(!(((*N)->es) && ((*N)->di))){
-                no aux = (*N)->es ? (*N)->es : (*N)->di;//Aux é o filho que existir
-                if (!aux) {     //Sem filhos
-                    aux = *N;
-                    *N = NULL;
-                }
-                else                    //Filho único
-                    **N = *aux;         //Copia o conteúdo do filho único
-                free(aux);
-                RetVal = 1;
-            }
-            else{                                   //Dois filhos
-
-                no aux = meNOr((*N)->di);           //Procurar o menor do lado dos maiores
-
-                (*N)->ch = aux->ch;                 //Copia ele para a raiz
-                (*N)->valor = aux->valor;           //Copia o valor também
-                RetVal = rem(&(*N)->di, aux->ch);
-            }
-        }
-
-        if (*N)
-            balancear(N);
-
-    }else
-        RetVal =  0;
-
-    return RetVal;
+int inteiro(){                      //Apenas lÃª um inteiro com scanf
+	int i;
+	scanf("%d",&i);
+	return i;
 }
 
-no busca(no N,int ch){   	                //Função recursiva de busca em árvore.
-	if(!N)return 0;
-	if(N->ch == ch)					        //Se o nó em questão for igual a chave buscada
-    	return N;						    //Retorna resultado positivo
-
-	if(ch < N->ch)
-		return busca(N->es,ch);           	//Se a chave é menor, busca à esquerda.
-                                            //Caso contrário
-	return busca(N->di, ch);		        //busca à direita.
+int chave(){                        //Interage com o usuÃ¡rio para obter um valor de chave
+	printf("Insira uma chave:");
+	return inteiro();
 }
 
-void preO(no n){						    //Imprime a árvore em pre ordem.
-    if(n){
-		printf("<%d %d %d> ", n->ch, n->valor, n->prof); //Imprime a chave, o valor e a profundidade onde o elemento se encontra.
-		preO(n->es);
-		preO(n->di);
-	}
+int valor(){                        //Interage com o usuÃ¡rio para obter um valor de registro.
+	printf("Insira um valor:");
+	return inteiro();
 }
+
+int incluir(no * av){              //Interage com o usuÃ¡rio pedindo uma chave e um valor e insere o resultado na Ã¡rvore
+    return insere(av, chave(),valor());    //Chama a funÃ§Ã£o para inserir os dados.
+}
+
+int remover(no * av){              //Interage com o usuÃ¡rio pedindo uma chave de remoÃ§Ã£o.
+    return rem(av,chave());
+}
+
+void buscar(no av){                 //Efetua a busca da chave obtida atravÃ©z de interaÃ§Ã£o com o usuÃ¡rio.
+	no aux=NULL;
+	aux = busca(av,chave());
+	if(aux)                         //Informa caso o elemento for encontrado, juntamente com sua profundidade na Ã¡rvore.
+		printf("Valor:\t%d\nNivel:\t%d\n",aux->valor,aux->prof);
+	else                            //Emite um aviso caso a chave nÃ£o esteja presente na Ã¡rvore.
+		printf("Elemento inexistente na arvore.\n");
+}
+
+void crlf(){                                //Imprime uma quebra de linha
+    printf("\n");
+
+}
+
+void loga(no a,int avlcont){
+    FILE * p=0;
+	while(p==NULL)//Tenta abrir o arquivo atÃ© conseguir
+		p = fopen ("saida.log","a");
+    fprintf(p,"%d %d\n",a?a->prof:0, avlcont);
+    fclose(p);
+}
+
+
+
 
 
 
