@@ -124,7 +124,7 @@ void Insercao(int A[], int n){//Algoritmo de inserção
 	for (int i=0; i<n; i++) {
 		int aux=A[i];
 		int j=i;
-		while (j>0v && aux<A[j-1]){//percorre o vetor enquanto houver trocas a fazer
+		while (j>0 && aux<A[j-1]){//percorre o vetor enquanto houver trocas a fazer
 			troca(&A[j], &A[j-1]);
 			j--;
 			comp++;
